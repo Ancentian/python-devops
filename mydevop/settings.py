@@ -52,6 +52,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #Session Timeout Middleware
+    'base.middleware.SessionTimeoutMiddleware',
 ]
 
 ROOT_URLCONF = 'mydevop.urls'
@@ -117,6 +119,12 @@ TIME_ZONE = 'Africa/Nairobi'
 USE_I18N = True
 
 USE_TZ = True
+
+#SESSIONS TIMEOUT
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+
+# Set the session cookie age to the desired timeout duration in seconds
+SESSION_COOKIE_AGE = 180  # 1 hour in seconds
 
 
 # Static files (CSS, JavaScript, Images)
