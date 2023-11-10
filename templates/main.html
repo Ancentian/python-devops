@@ -16,6 +16,11 @@
 		<link rel="stylesheet" href="{% static 'css/bootstrap-datetimepicker.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 
+		{% comment %} Toastr {% endcomment %}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
+
 	</head>
 <body>
 	<div class="main-wrapper">
@@ -24,19 +29,21 @@
 		{% include "sidebar.html" %}
 		
 		{% block content %}
-		
+
+		<div id="toastr-alerts"></div>
+
 		{% if messages %}
 			<ul class="messages">
 				{% for message in messages %}
 				<li>{{ message }}</li>
 				{% endfor %}
 			</ul>
-
 		{% endif %}
 		
 		{% endblock content %}
 	</div>
-	<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+	{% comment %} <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script> {% endcomment %}
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	<script src="{% static 'js/popper.min.js' %}"></script>
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'js/moment.min.js' %}"></script>
@@ -52,6 +59,7 @@
 
 
 	{% include 'scripts.html' %}
+	{% comment %} {% include 'toastr.html' %} {% endcomment %}
 </body>
 
 </html>
