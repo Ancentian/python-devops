@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 
-from .models import User, Employee
+from .models import User, Employee, Department
 from .forms import  EmployeeForm, UserForm, MyUserCreationForm
 
 # Create your views here.
@@ -49,6 +49,7 @@ def employees(request):
 @login_required(login_url='login')
 def addEmployee(request):
     form = EmployeeForm()
+    departments = Department.objects.all()
     if request.method == 'POST':
         form = EmployeeForm(data=request.POST)
         if form.is_valid():
@@ -64,9 +65,10 @@ def addEmployee(request):
         else:
             messages.error(request, 'An error occurred during registration')
 
-    context = {'form': form}
+    context = {'form': form, 'departments': departments}
     return render(request, 'base/add-employee.html', context)
 
+@login_required(login_url='login')
 def registerUser(request):
     form = EmployeeForm
     if request.method == 'POST':
@@ -87,27 +89,43 @@ def userProfile(request ):
     context = {}
     return render(request, 'base/profile.html', context)
 
-def users(request):
-    userForm = MyUserCreationForm()
-    users = User.objects.all()
+# def users(request):
+#     userForm = MyUserCreationForm()
+#     users = User.objects.all()
     
+#     if request.method == 'POST':
+#         userForm = MyUserCreationForm(data=request.POST)
+#         if userForm.is_valid():
+#             user = userForm.save(commit=False)
+#             user.username = user.username.lower()
+#             # Modify other user fields here if needed
+#             user.save()
+#             messages.success(request, 'User registered successfully')
+#             return redirect('users')
+#         else:
+#             # Include form errors in the context to display them in the template
+#             context = {'users': users, 'userForm': userForm}
+#             return render(request, 'base/users/index.html', context)
+#          # Add a return statement here to return an HttpResponse object
+#     context = {'users': users, 'userForm': userForm}
+#     return render(request, 'base/users/index.html', context)
+@login_required(login_url='login')
+def users(request):
+    users = User.objects.all()
+    userForm = MyUserCreationForm()
     if request.method == 'POST':
-        userForm = MyUserCreationForm(data=request.POST)
+        userForm = MyUserCreationForm(request.POST, request.FILES)
         if userForm.is_valid():
-            user = userForm.save(commit=False)
-            user.username = user.username.lower()
-            # Modify other user fields here if needed
-            user.save()
-            messages.success(request, 'User registered successfully')
-            return redirect('users')
+            user = userForm.save()
+            return JsonResponse({'message': 'User created successfully', 'user_id': user.id})
         else:
-            # Include form errors in the context to display them in the template
-            context = {'users': users, 'userForm': userForm}
-            return render(request, 'base/users/index.html', context)
-         # Add a return statement here to return an HttpResponse object
-    context = {'users': users, 'userForm': userForm}
-    return render(request, 'base/users/index.html', context)
+            errors = userForm.errors
+            return JsonResponse({'message': 'Form validation failed', 'errors': errors}, status=400)
+    else:
+        context = {'users': users, 'userForm': userForm}
+        return render(request, 'base/users/index.html', context)
 
+@login_required(login_url='login')
 def editUser(request):
     if request.method == 'GET':
         user_id = request.GET.get('id')
@@ -115,6 +133,7 @@ def editUser(request):
         data = {'id': user.id, 'username': user.username, 'name': user.name, 'email': user.email }
         return JsonResponse(data)
 
+@login_required(login_url='login')
 def updateUser(request):
     user_id = request.POST.get('id')
     user = get_object_or_404(User, id=user_id)
@@ -151,6 +170,7 @@ def deleteItem(request, pk):
     }
     return render(request, 'base/delete.html', context)
 
+@login_required(login_url='login')
 def delete_user(request, pk):
     item = get_object_or_404(User, pk=pk)
     item.delete()
