@@ -119,38 +119,54 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
                     </div>
                     <div class="modal-body">
-                        <form action="" method="POST" enctype="multipart/form-data">
+                        <form action="" method="POST" enctype="multipart/form-data" id="add_user_form">
                             {% csrf_token %}
                             {% comment %} {{ userForm.as_p }} {% endcomment %}
                             <div class="row form-row">
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Name</label>
-                                        <input type="text" class="form-control" name="name" placeholder="John"> 
+                                        <input type="text" class="form-control" name="name" placeholder="John" {% if userForm.is_bound %}value={{userForm.name.value}}{% endif %}> 
+                                        {% for error in userForm.name.errors %}
+                                            <small class="text-danger">{{ error }}</small>
+                                        {% endfor %}
                                     </div>
                                 </div>
+                                
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Userame</label>
-                                        <input type="text" class="form-control" name="username" placeholder="Doe"> 
+                                        <input type="text" class="form-control" name="username" placeholder="Doe" {% if userForm.is_bound %}value={{userForm.username.value}}{% endif %}> 
+                                        {% for error in userForm.username.errors %}
+                                            <small class="text-danger">{{ error }}</small>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Email</label>
-                                        <input type="email" class="form-control" name="email" placeholder="johndoe@example.com"> 
+                                        <input type="email" class="form-control" name="email" placeholder="johndoe@example.com" {% if userForm.is_bound %}value={{userForm.emmail.value}}{% endif %}>
+                                        {% for error in userForm.email.errors %}
+                                            <small class="text-danger">{{ error }}</small>
+                                        {% endfor %} 
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Password</label>
                                         <input type="password" placeholder="*********" name="password1" class="form-control"> 
+                                        {% for error in userForm.password1.errors %}
+                                            <small class="text-danger">{{ error }}</small>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group">
                                         <label>Confirm Password</label>
                                         <input type="password" placeholder="*********" name="password2" class="form-control"> 
+                                        {% for error in userForm.password2.errors %}
+                                            <small class="text-danger">{{ error }}</small>
+                                        {% endfor %}
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6">
@@ -173,7 +189,6 @@
             </div>
         </div>
 
-        #Edit User
         <div class="modal fade" id="editUserModal" aria-hidden="true" role="dialog">
             <div class="modal-dialog modal-lg modal-dialog-centered " role="document">
                 <div class="modal-content">
@@ -185,7 +200,7 @@
                         <form id="editEmployeeForm" enctype="multipart/form-data">
                             {% csrf_token %}
                             {% comment %} {{ userForm.as_p }} {% endcomment %}
-                            <input type="text" name="id">
+                            <input type="hidden" name="id">
                             <div class="row form-row">
                                 <div class="col-12 col-sm-6">
                                     <div class="form-group">
@@ -225,18 +240,6 @@
                 </div>
             </div>
         </div>
-
-        {% comment %} Edit User {% endcomment %}
-        {% comment %} <div class="modal" id="editEmployeeModal">
-            <div class="modal-content">
-                <form id="editEmployeeForm">
-                    <label for="editName">Name:</label>
-                    <input type="text" id="editName" name="name" required>
-                    <!-- Other fields go here -->
-                    <button type="submit">Save changes</button>
-                </form>
-            </div>
-        </div> {% endcomment %}
     </div>
 </div>
 {% endblock content %}

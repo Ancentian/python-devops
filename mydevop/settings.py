@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # My Apps
+    'django.contrib.humanize',
     'base.apps.BaseConfig'
 ]
 
@@ -124,7 +125,7 @@ USE_TZ = True
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
 
 # Set the session cookie age to the desired timeout duration in seconds
-SESSION_COOKIE_AGE = 180  # 1 hour in seconds
+SESSION_COOKIE_AGE = 600  # 1 hour in seconds
 
 
 # Static files (CSS, JavaScript, Images)

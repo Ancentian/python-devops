@@ -62,8 +62,9 @@
                                         <th>Employee ID</th>
                                         <th>Email</th>
                                         <th>Mobile</th>
-                                        <th>Join Date</th>
-                                        <th>role</th>
+                                        <th>Role</th>
+                                        <th>Department</th>     
+                                        <th>Salary</th>
                                         <th class="text-right">Actions</th>
                                     </tr>
                                 </thead>
@@ -74,10 +75,11 @@
                                         <td>{{employee.employee_id}}</td>
                                         <td>{{employee.email}}</td>
                                         <td>{{employee.phone_no}}</td>
-                                        <td>{{employee.joining_date}}</td>
                                         <td>
-                                            <span class="custom-badge status-green">{{employee.role}}</span>
+                                            <span class="custom-badge status-green">{{employee.role|title}}</span>
                                         </td>
+                                        <td>{{employee.department.name}}</td>
+                                        <td>{{employee.salary}}</td>
                                         <td class="text-right">
                                             <div class="dropdown dropdown-action">
                                                 <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fas fa-ellipsis-v ellipse_color"></i></a>

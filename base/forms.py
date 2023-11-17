@@ -12,7 +12,7 @@ class MyUserCreationForm(UserCreationForm):
 class EmployeeForm(ModelForm):
     class Meta:
         model = Employee
-        fields = ['avatar','fname','lname', 'email', 'employee_id', 'joining_date', 'phone_no','role']
+        fields = ['avatar','fname','lname', 'email', 'employee_id', 'joining_date', 'phone_no','role', 'department', 'salary']
         
 class UserForm(ModelForm):
     class Meta:
